@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Invoice - Shri Vaaru Fibre Works</title>
+  <style>
+    body { font-family: sans-serif; padding: 40px; }
+    .header, .footer { text-align: center; }
+    .header h2 { margin: 5px 0; }
+    .details, .amounts { margin-top: 20px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    td, th { border: 1px solid #000; padding: 8px; text-align: left; }
+    .particular { width: 50%; }
+    .center { text-align: center; }
+    .right { text-align: right; }
+    .bold { font-weight: bold; }
+  </style>
+  <link rel="stylesheet" href="invoice-style.css">
+</head>
+<body>
+
+  <div class="header">
+    <p><strong>GSTIN :</strong> 33BDPPN7711Q2ZT</p>
+    <h3>INVOICE</h3>
+    <h2>SHRI VAARU FIBRE WORKS</h2>
+    <p>No.214, 4th Street, Abirami Nagar, Maduravoyal, Chennai - 600 095</p>
+    <p>Email: nadarajan151982@gmail.com | Mob: 9941299708, 9094057947</p>
+  </div>
+<!-- 
+  <div class="details">
+    <p><strong>M/s:</strong> <span id="custName"></span></p>
+    <p><strong>Mobile:</strong> <span id="custMobile"></span></p>
+    <p><strong>Address:</strong> <span id="custAddress"></span></p>
+    <p><strong>Date:</strong> <span id="invoiceDate"></span></p>
+  </div> -->
+  <div class="top-info">
+  <div class="top-left">
+    <p><strong>M/s:</strong> <span id="custName"></span></p>
+    <p><strong>Mobile:</strong> <span id="custMobile"></span></p>
+    <p><strong>Address:</strong> <span id="custAddress"></span></p>
+  </div>
+  <div class="top-right">
+    <p><strong>Sl. No.:</strong> <span id="invoiceNumber"></span></p>
+    <p><strong>Date:</strong> <span id="invoiceDate"></span></p>
+  </div>
+</div>
+
+
+  <table>
+    <thead>
+      <tr>
+        <th>Sl. No.</th>
+        <th class="particular">Particulars</th>
+        <th>Qty</th>
+        <th>Rate</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody id="invoiceTableBody"></tbody>
+  </table>
+<!-- 
+  <div class="amounts">
+    <p><strong>Amount in words:</strong> <span id="amountWords"></span></p>
+    <table>
+      <tr><td>Total</td><td id="totalAmount" class="right"></td></tr>
+      <tr><td>CGST 9%</td><td id="cgstAmount" class="right"></td></tr>
+      <tr><td>SGST 9%</td><td id="sgstAmount" class="right"></td></tr>
+      <tr><td>IGST 18%</td><td class="right">--</td></tr>
+      <tr><td>Freight Charges</td><td class="right">--</td></tr>
+      <tr class="bold"><td>Grand Total</td><td id="grandTotal" class="right"></td></tr>
+    </table>
+  </div> -->
+  <div class="amount-section">
+  <div class="amount-left">
+    <p><strong>Amount in words:</strong> <span id="amountWords"></span></p>
+  </div>
+  <div class="amount-right">
+    <table>
+      <tr><td>Total</td><td id="totalAmount" class="right"></td></tr>
+      <tr><td>CGST 9%</td><td id="cgstAmount" class="right"></td></tr>
+      <tr><td>SGST 9%</td><td id="sgstAmount" class="right"></td></tr>
+      <tr><td>IGST 18%</td><td class="right">--</td></tr>
+      <tr><td>Freight Charges</td><td class="right">--</td></tr>
+      <tr class="bold"><td>Grand Total</td><td id="grandTotal" class="right"></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- 
+  <div class="footer">
+    <p>For <strong>SHRI VAARU FIBRE WORKS</strong></p>
+    <p>Customer Signature: __________________</p>
+  </div> -->
+  <div class="footer-section">
+  <div class="signature-left">
+    <p>Customer Signature</p>
+  </div>
+  <div class="signature-right">
+    <p>For <strong>SHRI VAARU FIBRE WORKS</strong></p>
+  </div>
+</div>
+
+
+  <script>
+    function numberToWords(num) {
+    if (num === 0) return "zero rupees only";
+
+    const ones = ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+                  "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", 
+                  "sixteen", "seventeen", "eighteen", "nineteen"];
+
+    const tens = ["", "", "twenty", "thirty", "forty", "fifty", 
+                  "sixty", "seventy", "eighty", "ninety"];
+
+    const numToWord = (n) => {
+        if (n < 20) return ones[n];
+        if (n < 100) return tens[Math.floor(n / 10)] + (n % 10 ? " " + ones[n % 10] : "");
+        if (n < 1000) return ones[Math.floor(n / 100)] + " hundred" + (n % 100 ? " " + numToWord(n % 100) : "");
+        if (n < 100000) return numToWord(Math.floor(n / 1000)) + " thousand" + (n % 1000 ? " " + numToWord(n % 1000) : "");
+        if (n < 10000000) return numToWord(Math.floor(n / 100000)) + " lakh" + (n % 100000 ? " " + numToWord(n % 100000) : "");
+        return numToWord(Math.floor(n / 10000000)) + " crore" + (n % 10000000 ? " " + numToWord(n % 10000000) : "");
+    };
+
+    return numToWord(num).trim() + " rupees only";
+}
+
+
+    const data = JSON.parse(localStorage.getItem('invoiceData'));
+    document.getElementById('custName').innerText = data.name;
+    document.getElementById('custMobile').innerText = data.mobile;
+    document.getElementById('custAddress').innerText = data.address;
+    document.getElementById('invoiceDate').innerText = data.date;
+
+    let total = 0;
+    const tbody = document.getElementById('invoiceTableBody');
+
+    data.products.forEach((product, index) => {
+      total += product.total;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${product.pname}</td>
+        <td>${product.qty}</td>
+        <td>${product.amt.toFixed(2)}</td>
+        <td>${product.total.toFixed(2)}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    const cgst = total * 0.09;
+    const sgst = total * 0.09;
+    const grandTotal = total + cgst + sgst;
+
+    document.getElementById('totalAmount').innerText = total.toFixed(2);
+    document.getElementById('cgstAmount').innerText = cgst.toFixed(2);
+    document.getElementById('sgstAmount').innerText = sgst.toFixed(2);
+    document.getElementById('grandTotal').innerText = grandTotal.toFixed(2);
+    document.getElementById('amountWords').innerText = numberToWords(Math.round(grandTotal)) + " Only";
+  </script>
+  <button onclick="window.print()">Print Invoice</button>
+
+</body>
+</html>
