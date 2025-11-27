@@ -1,4 +1,4 @@
-# GST Billing Software
+# GST Billing Software 
 
 A simple GST billing web application that helps generate item-wise invoices with GST calculations and a clean printable layout.  
 Built using **Node.js**, **HTML/CSS**, and basic JavaScript for frontend interactions.
